@@ -14,20 +14,20 @@ import { FormsModule} from '@angular/forms'
 })
 export class LoginComponent {
   user: UserAuth = { email: "", password: "" };
-  errorMessage: string = '';
+  isRegistering = false;
   isAuthenticated = false;
+
+  toggleForm() {
+    this.isRegistering = !this.isRegistering;
+  }
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  async onLogin() {
+  async onAuth(type:string) {
     if (this.user.email === "" || this.user.password === "") {
       return;
     }
 
-    await this.authService.authenticate(this.user, "login");
-
-    if (this.authService.isAuthenticated()) {
-      this.router.navigateByUrl("/");
-    }
+    await this.authService.authenticate(this.user, type);
   }
 }
