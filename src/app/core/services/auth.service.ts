@@ -11,12 +11,11 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   user = signal<User | undefined>(undefined);
-  private apiUrl = 'http://localhost:5203/api/';
+  private apiUrl = 'http://localhost:5203/api/auth/';
 
   async authenticate(userAuth: UserAuth, authType: string): Promise<void> {
-    console.log(userAuth);
     try {
-      const response: any = await await fetch(`${this.apiUrl}Auth/${authType}`, {
+      const response: any = await fetch(`${this.apiUrl}${authType}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userAuth),
@@ -29,7 +28,6 @@ export class AuthService {
       this.router.navigateByUrl("/");
     }
     catch (error) {
-      console.log(error);
       throw new Error();
     }
   }

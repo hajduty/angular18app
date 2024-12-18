@@ -1,39 +1,33 @@
 @import "../../../styles.scss";
 
 ::-webkit-scrollbar {
-    width: 0.4rem;
+  width: 0.4rem;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f100;
+  background: #f1f1f100;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #54B4D3;
+  background: #54B4D3;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #3B71CA;
+  background: #3B71CA;
 }
 
-.add-card {
-
-    &:hover {
-        // Use darken or lighten for color manipulation
-        background-color: var(--bs-primary-bg-subtle);
-        // Or use Bootstrap's color-mix if targeting modern browsers
-        // background-color: color-mix(in srgb, $primary 80%, white 20%);
-        transition: background-color 0.3s ease;
-    }
+.card:hover {
+  background-color: var(--bs-primary-bg-subtle);
+  transition: background-color 0.3s ease;
 }
 
 .card {
-    width: 18rem;
-    min-height: 15rem;
+  width: 18rem;
+  min-height: 15rem;
 }
 
 .book-description {
-    max-height: 5rem;
-    min-height: 5rem;
-    overflow-y: auto;
+  max-height: 5rem;
+  min-height: 5rem;
+  overflow-y: auto;
 }

@@ -1,1 +1,24 @@
-<p>book works!</p>
+<div class="container-lg py-5 d-flex gap-3 flex-wrap">
+  <div type="button" class="card text-center">
+    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+      <span class="align-items-center justify-content-center text-center">
+        <p class="user-select-none mb-0">Add book</p>
+        <i class="icon fas fa-solid fa-plus"></i>
+      </span>
+    </div>
+  </div>
+  <div class="card bg-primary-subtle" *ngFor="let book of books">
+    <div class="card-body">
+      <h5 class="card-title">{{ book.title }}</h5>
+      <h6 class="card-subtitle">By {{ book.author }}</h6>
+      <br>
+      <p class="card-text text-wrap book-description">
+        {{ book.description }}
+      </p>
+    </div>
+    <div class="d-flex p-3 justify-content-between card-footer">
+      <button class="btn btn-info btn-sm">Edit book</button>
+      <button class="btn btn-outline-danger btn-sm" (click)="this.removeBook(book)">Remove</button>
+    </div>
+  </div>
+</div>
