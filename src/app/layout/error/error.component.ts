@@ -12,10 +12,15 @@ import { ErrorService } from '../../core/services/error.service';
 })
 export class ErrorComponent {
   errorMessage: string = '';
+  isErrorVisible: boolean = false;
 
   constructor(private errorService: ErrorService) {
     effect(() => {
       this.errorMessage = this.errorService.getErrorSignal();
+    });
+
+    effect(() => {
+      this.isErrorVisible = this.errorService.isErrorVisible();
     });
   }
 }

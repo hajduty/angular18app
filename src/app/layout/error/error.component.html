@@ -1,4 +1,7 @@
-<div *ngIf="errorMessage" class="error-message">
-    <p>helo</p>
+<div *ngIf="errorMessage" 
+     class="error-message bg-danger"
+     [ngClass]="{'fade-out': !isErrorVisible}">
+  <div class="p-2">
     {{ errorMessage }}
+  </div>
 </div>
