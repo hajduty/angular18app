@@ -1,0 +1,72 @@
+<div #modal class="modal fade" [id]="mode === 'add' ? 'addBookModal' : 'editBookModal'" tabindex="-1"
+  [attr.aria-hidden]="!isModalVisible ? 'true' : null">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" [id]="mode === 'add' ? 'addBookModalLabel' : 'editBookModalLabel'">
+          {{ mode === 'add' ? 'Add new book' : 'Edit book' }}
+        </h1>
+      </div>
+      <div class="modal-body">
+        <form #bookForm="ngForm" (ngSubmit)="submitForm()">
+          <div class="mb-3">
+            <label for="authorInput" class="form-label">Author</label>
+            <input type="text" class="form-control" id="authorInput" name="author" [(ngModel)]="book.author"
+              #authorInput="ngModel" required minlength="2"
+              [class.is-invalid]="authorInput.invalid && (authorInput.dirty || authorInput.touched)">
+            <div class="invalid-feedback" *ngIf="authorInput.invalid && (authorInput.dirty || authorInput.touched)">
+              <div *ngIf="authorInput.errors?.['required']">
+                <small>
+                  Author is required.
+                </small>
+              </div>
+              <div *ngIf="authorInput.errors?.['minlength']">Author name must be at least 2 characters long.</div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="titleInput" class="form-label">Title</label>
+            <input type="text" class="form-control" id="titleInput" name="title" [(ngModel)]="book.title"
+              #titleInput="ngModel" required minlength="1"
+              [class.is-invalid]="titleInput.invalid && (titleInput.dirty || titleInput.touched)">
+            <div class="invalid-feedback" *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)">
+              <div *ngIf="titleInput.errors?.['required']">Title is required.</div>
+              <div *ngIf="titleInput.errors?.['minlength']">Title must not be empty.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="releaseInput" class="form-label">Release year</label>
+            <input type="number" class="form-control" id="releaseInput" name="released" [(ngModel)]="book.released"
+              #releaseInput="ngModel" required min="1" max="{{2024}}"
+              [class.is-invalid]="releaseInput.invalid && (releaseInput.dirty || releaseInput.touched)">
+            <div class="invalid-feedback" *ngIf="releaseInput.invalid && (releaseInput.dirty || releaseInput.touched)">
+              <div *ngIf="releaseInput.errors?.['required']">Release year is required.</div>
+              <div *ngIf="releaseInput.errors?.['min'] || releaseInput.errors?.['max']">Please enter a valid year.</div>
+              <div *ngIf="releaseInput.errors?.['pattern']">Please enter a valid 4-digit year.</div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="descriptionInput" class="form-label">Description</label>
+            <textarea class="form-control" id="descriptionInput" name="description" [(ngModel)]="book.description"
+              #descriptionInput="ngModel" required minlength="10"
+              [class.is-invalid]="descriptionInput.invalid && (descriptionInput.dirty || descriptionInput.touched)">
+            </textarea>
+            <div class="invalid-feedback"
+              *ngIf="descriptionInput.invalid && (descriptionInput.dirty || descriptionInput.touched)">
+              <div *ngIf="descriptionInput.errors?.['required']">Description is required.</div>
+              <div *ngIf="descriptionInput.errors?.['minlength']">Description must be at least 10 characters long.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" (click)="submitForm()" [disabled]="!bookForm.form.valid"
+          data-bs-dismiss="modal">
+          {{ mode === 'add' ? 'Add book' : 'Save changes' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

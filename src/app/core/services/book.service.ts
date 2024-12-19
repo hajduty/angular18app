@@ -38,13 +38,32 @@ export class BookService {
     return false;
   }
 
-  async addBook(book: Book) {
-    const response: any = await fetch(this.apiUrl, {
+  async addBook(book: Book): Promise<boolean> {
+    const response: any = await fetchWithAuth(this.apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book),
     });
 
-    const result = await response.json();
+    if (response.ok) {
+      return true;
+    }
+
+    return false;
+  }
+
+  async editBook(book: Book): Promise<boolean> {
+    console.log("edit called");
+    const response: any = await fetchWithAuth(`${this.apiUrl}${book.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(book),
+    });
+
+    if (response.ok) {
+      return true;
+    }
+
+    return false;
   }
 }
