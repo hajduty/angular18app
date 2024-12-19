@@ -9,11 +9,11 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #54B4D3;
+  background: $primary;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3B71CA;
+  background: $primary;
 }
 
 .card:hover {
@@ -31,3 +31,4 @@
   min-height: 5rem;
   overflow-y: auto;
 }
+

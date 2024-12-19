@@ -1,0 +1,26 @@
+.card {
+    width: 18rem;
+    min-height: 15rem;
+}
+
+.quote-text {
+    max-height: 10rem;
+    min-height: 5rem;
+    overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+    width: 0.4rem;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f100;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #54B4D3;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3B71CA;
+}
