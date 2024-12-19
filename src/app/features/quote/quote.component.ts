@@ -3,6 +3,7 @@ import { QuoteService } from '../../core/services/quote.service';
 import { Quote } from '../../core/models/quote.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ErrorService } from '../../core/services/error.service';
 
 @Component({
   selector: 'app-quote',
@@ -14,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class QuoteComponent {
   quotes = signal<Quote[]>([])
-  constructor(private quoteService: QuoteService) { }
+  constructor(private quoteService: QuoteService, private errorService: ErrorService) { }
 
   newQuote: string = "";
 
@@ -29,20 +30,23 @@ export class QuoteComponent {
   }
 
   async addQuote() {
-    if (this.newQuote === "")
-    {
+    if (this.newQuote === "") {
       return;
     }
 
     const quoteResponse = await this.quoteService.addQuote(this.newQuote);
     if (quoteResponse != null) {
-      this.quotes.set([...this.quotes(),quoteResponse]);
+      this.quotes.set([...this.quotes(), quoteResponse]);
+    } else {
+      this.errorService.setError('You need to be logged in do to this!');
     }
   }
 
   async removeQuote(quote: Quote) {
     if (await this.quoteService.deleteQuote(quote)) {
       await this.repopulateQuotes();
+    } else {
+      this.errorService.setError('You need to be logged in do to this!');
     }
   }
 }

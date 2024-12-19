@@ -46,9 +46,9 @@ export class BookComponent {
   async removeBook(book: Book) {
     if (await this.bookService.deleteBook(book)) {
       this.repopulateBooks();
+      return;
     }
-    console.log("noob");
-    this.errorService.setError('An error has occurred!');
+    this.errorService.setError('You need to be logged in do to this!');
   }
 
   async repopulateBooks() {

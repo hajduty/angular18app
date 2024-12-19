@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { BookService } from '../../../core/services/book.service';
 import { BookComponent } from '../book.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { ErrorService } from '../../../core/services/error.service';
 
 // @ts-ignore
 const $: any = window['$']
@@ -16,7 +18,8 @@ const $: any = window['$']
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddbookComponent {
-  constructor(private bookService: BookService, private bookComponent: BookComponent, private changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private bookService: BookService, private bookComponent: BookComponent,
+    private changeDetectorRef: ChangeDetectorRef, private authService: AuthService, private errorService: ErrorService) { }
 
   @ViewChild('modal') modal?: ElementRef;
   @ViewChild('bookForm') bookForm!: NgForm;
@@ -50,6 +53,10 @@ export class AddbookComponent {
   }
 
   openModal(bookToEdit?: Book) {
+    if (!this.authService.isAuthenticated()) {
+      this.errorService.setError('You need to be logged in do to this!');
+      return;
+    }
     if (bookToEdit) {
       this.mode = 'edit';
       this.book = {
