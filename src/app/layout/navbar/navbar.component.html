@@ -12,17 +12,17 @@
       </ul>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li *ngIf="!this.isLoggedIn()" class="nav-item d-lg-none">
-          <a class="nav-link" href="#">
+          <a class="nav-link" routerLink="/login">
             <i class="fas fa-user me-2"></i>Login
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" routerLink="/books">
             <i class="fas fa-book me-2"></i>Books
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link" routerLink="/quotes">
             <i class="fas fa-quote-left me-2"></i>Quotes
           </a>
         </li>
