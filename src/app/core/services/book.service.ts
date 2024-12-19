@@ -18,13 +18,12 @@ export class BookService {
 
   async populateBooks(): Promise<boolean> {
     const response = await fetchWithAuth(`${this.apiUrl}`);
-    const result: Book[] = await response.json();
-
-    if (response.ok) {
-      this.books.set(result);
-      return true;
+    
+    if (!response.ok) {
+      return false;
     }
-
+    
+    this.books.set(await response.json());
     return false;
   }
 
@@ -45,25 +44,16 @@ export class BookService {
       body: JSON.stringify(book),
     });
 
-    if (response.ok) {
-      return true;
-    }
-
-    return false;
+    return response.ok;
   }
 
   async editBook(book: Book): Promise<boolean> {
-    console.log("edit called");
     const response: any = await fetchWithAuth(`${this.apiUrl}${book.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book),
     });
 
-    if (response.ok) {
-      return true;
-    }
-
-    return false;
+    return response.ok;
   }
 }

@@ -18,15 +18,13 @@ export class QuoteService {
 
   async populateQuotes(): Promise<boolean> {
     const response = await fetchWithAuth(`${this.apiUrl}`);
-    const result: Quote[] = await response.json();
 
-    if (response.ok) {
-      this.quotes.set(result);
-      console.log(result);
-      return true;
+    if (!response.ok) {
+      return false;
     }
 
-    return false;
+    this.quotes.set(await response.json());
+    return true;
   }
 
   async deleteQuote(quote: Quote): Promise<boolean> {
@@ -34,14 +32,16 @@ export class QuoteService {
     return response.ok;
   }
 
-  async addQuote(quote: string): Promise<Quote> {
+  async addQuote(quote: string): Promise<Quote | null> {
     const response: any = await fetchWithAuth(this.apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(quote),
     });
 
-    console.log(response);
+    if (!response.ok) {
+      return null;
+    };
 
     return await response.json();
   }
