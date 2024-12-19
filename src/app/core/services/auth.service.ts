@@ -3,6 +3,7 @@ import { Injectable, signal } from '@angular/core';
 import { User, UserAuth } from '../models/user.model';
 import { jwtDecode } from 'jwt-decode';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) { }
 
   user = signal<User | undefined>(undefined);
-  private apiUrl = 'http://localhost:5203/api/auth/';
+  private apiUrl = `${environment.API_URL}/api/auth/`;
 
   async authenticate(userAuth: UserAuth, authType: string): Promise<void> {
     try {

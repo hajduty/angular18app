@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Book } from '../models/book.model';
 import { fetchWithAuth } from '../utils/fetchAuth';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = 'http://localhost:5203/api/book/';
+  private apiUrl = `${environment.API_URL}/api/book`;
   private books = signal<Book[]>([]);
 
   constructor(private http: HttpClient) { }
