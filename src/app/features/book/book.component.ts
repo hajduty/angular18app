@@ -1,8 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { Book } from '../../core/models/book.model';
 import { BookService } from '../../core/services/book.service';
 import { CommonModule } from '@angular/common';
 import { AddbookComponent } from "./addbook/addbook.component";
+import { ErrorService } from '../../core/services/error.service';
 
 @Component({
   selector: 'app-book',
@@ -13,6 +14,7 @@ import { AddbookComponent } from "./addbook/addbook.component";
 })
 export class BookComponent {
   books: Book[] = [];
+  private errorService = inject(ErrorService);
 
   constructor(private bookService: BookService) { }
 
@@ -45,6 +47,8 @@ export class BookComponent {
     if (await this.bookService.deleteBook(book)) {
       this.repopulateBooks();
     }
+    console.log("noob");
+    this.errorService.setError('An error has occurred!');
   }
 
   async repopulateBooks() {

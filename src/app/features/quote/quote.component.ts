@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './quote.component.html',
-  styleUrl: './quote.component.css',
+  styleUrl: './quote.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuoteComponent {
