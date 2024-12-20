@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { Book } from '../../core/models/book.model';
 import { BookService } from '../../core/services/book.service';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,7 @@ import { ErrorService } from '../../core/services/error.service';
   styleUrl: './book.component.scss'
 })
 export class BookComponent {
-  books: Book[] = [];
+  books = signal<Book[]>([]);
   private errorService = inject(ErrorService);
 
   constructor(private bookService: BookService) { }
@@ -29,16 +29,17 @@ export class BookComponent {
   }
 
   addBook(book: Book) {
-    this.books.push(book);
+    console.log(book);
+    this.books.set([...this.books(),book]);
   }
 
-  editBook(updatedBook: Book) {
-    const index = this.books.findIndex(book => book.id === updatedBook.id);
-    if (index !== -1) {
-      this.books[index] = { ...updatedBook };
-    }
+  editBook(updatedBook: Book): void {
+    const currentBooks = this.books();
+    this.books.set(currentBooks.map(book =>
+      book.id === updatedBook.id ? { ...updatedBook } : book
+    ));  
   }
-
+  
   async ngOnInit(): Promise<void> {
     this.repopulateBooks();
   }
@@ -53,6 +54,6 @@ export class BookComponent {
 
   async repopulateBooks() {
     await this.bookService.populateBooks();
-    this.books = this.bookService.getBooks();
+    this.books.set(this.bookService.getBooks());
   }
 }

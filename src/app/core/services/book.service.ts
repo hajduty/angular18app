@@ -55,6 +55,8 @@ export class BookService {
       body: JSON.stringify(book),
     });
 
+    console.log(book);
+    
     return response.ok;
   }
 }

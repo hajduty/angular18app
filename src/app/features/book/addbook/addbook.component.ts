@@ -37,20 +37,24 @@ export class AddbookComponent {
   };
 
   async submitForm(): Promise<void> {
-    if (this.bookForm.form.valid) {
-      if (this.mode === 'add') {
-        if (await this.bookService.addBook(this.book)) {
-          this.bookComponent.addBook(this.book);
-        }
 
+    if (this.bookForm.form.valid) {
+      const bookCopy = { ...this.book };
+      if (this.mode === 'add') {
+        if (await this.bookService.addBook(bookCopy)) {
+          this.bookComponent.addBook(bookCopy);
+        }
       } else {
-        if (await this.bookService.editBook(this.book)) {
-          this.bookComponent.editBook(this.book);
+        if (await this.bookService.editBook(bookCopy)) {
+          this.bookComponent.editBook(bookCopy);
         }
       }
+
+      this.bookForm.resetForm();
       this.closeModal();
     }
   }
+
 
   openModal(bookToEdit?: Book) {
     if (!this.authService.isAuthenticated()) {
@@ -73,7 +77,6 @@ export class AddbookComponent {
     this.isModalVisible = true;
     this.changeDetectorRef.detectChanges();
     $(this.modal?.nativeElement).modal('show');
-    this.bookForm.resetForm();
   }
 
   closeModal() {
