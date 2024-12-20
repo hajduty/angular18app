@@ -22,6 +22,8 @@ RUN npm run build --prod
 # Step 2: Set up the Nginx server to serve the Angular app
 FROM nginx:alpine
 
+COPY default.conf /etc/nginx/conf.d/default.conf
+
 # Copy the built Angular files to the Nginx server
 COPY --from=build /app/dist/angular18app/browser /usr/share/nginx/html
 
