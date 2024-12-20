@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = `${environment.API_URL}/api/book`;
+  private apiUrl = `${environment.API_URL}/api/book/`;
   private books = signal<Book[]>([]);
 
   constructor(private http: HttpClient) { }
