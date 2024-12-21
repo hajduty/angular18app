@@ -6,10 +6,9 @@
           class="card-text form-control-plaintext w-100 h-100" placeholder="Enter a quote"></textarea>
       </div>
       <div class="card-footer">
-        <span type="button"
-          class="d-flex w-100">
-          <button type="button" class="btn-primary btn btn-sm d-flex align-items-center justify-content-center w-100" (click)="addQuote()" [disabled]="newQuote === ''"
-            [attr.aria-disabled]="newQuote === ''">
+        <span type="button" class="d-flex w-100">
+          <button type="button" class="btn-primary btn btn-sm d-flex align-items-center justify-content-center w-100"
+            (click)="addQuote()" [disabled]="newQuote === ''" [attr.aria-disabled]="newQuote === ''">
             <i class="icon fas fa-solid fa-plus me-2"></i>
             <p class="user-select-none mb-0 ">Add Quote</p>
           </button>
@@ -17,15 +16,15 @@
       </div>
     </div>
 
-    <div class="card bg-primary-subtle quote-card shadow-sm" *ngFor="let quote of quotes()">
+    <div class="card bg-primary-subtle quote-card shadow-sm" *ngFor="let quote of this.quotes()">
       <div class="card-body pb-0">
         <h5 class="card-text quote-text">{{ quote.text }}</h5>
       </div>
       <div class="card-footer text-center text-danger-emphasis">
         <span type="button" class="d-flex align-items-center justify-content-center text-center btn-danger btn btn-sm"
-          (click)="addQuote()">
+          (click)="this.removeQuote(quote)">
           <i class="icon fas fa-solid fa-trash me-2"></i>
-          <p class="user-select-none mb-0" (click)="this.removeQuote(quote)">Delete Quote</p>
+          <p class="user-select-none mb-0">Delete Quote</p>
         </span>
       </div>
     </div>

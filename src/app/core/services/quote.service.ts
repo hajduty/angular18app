@@ -9,23 +9,13 @@ import { environment } from '../../../environments/environment';
 })
 export class QuoteService {
   private apiUrl = `${environment.API_URL}/api/quote/`;
-  private quotes = signal<Quote[]>([]);
 
   constructor(private http: HttpClient) { }
 
-  getQuotes() {
-    return this.quotes();
-  }
-
-  async populateQuotes(): Promise<boolean> {
+  async populateQuotes(): Promise<Quote[]> {
     const response = await fetchWithAuth(`${this.apiUrl}`);
 
-    if (!response.ok) {
-      return false;
-    }
-
-    this.quotes.set(await response.json());
-    return true;
+    return response.json();
   }
 
   async deleteQuote(quote: Quote): Promise<boolean> {
@@ -33,16 +23,12 @@ export class QuoteService {
     return response.ok;
   }
 
-  async addQuote(quote: string): Promise<Quote | null> {
+  async addQuote(quote: string): Promise<Quote> {
     const response: any = await fetchWithAuth(this.apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(quote),
     });
-
-    if (!response.ok) {
-      return null;
-    };
 
     return await response.json();
   }
