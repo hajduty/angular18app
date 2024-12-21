@@ -37,18 +37,21 @@ export class AddbookComponent {
   };
 
   async submitForm(): Promise<void> {
-
     if (this.bookForm.form.valid) {
       const bookCopy = { ...this.book };
       if (this.mode === 'add') {
         const book = await this.bookService.addBook(bookCopy);
         if (book != null) {
           this.bookComponent.addBook(book);
+        } else {
+          this.errorService.setError('Error adding obok!');
         }
       } else {
-        const book = await this.bookService.editBook(bookCopy);
-        if (book != null) {
-          this.bookComponent.addBook(book);
+        const editedBook = await this.bookService.editBook(bookCopy);
+        if (editedBook) {
+          this.bookComponent.editBook(bookCopy);
+        } else {
+          this.errorService.setError('Error editing book!');
         }
       }
 
@@ -59,6 +62,7 @@ export class AddbookComponent {
 
 
   openModal(bookToEdit?: Book) {
+    this.clearModal();
     if (!this.authService.isAuthenticated()) {
       this.errorService.setError('You need to be logged in do to this!');
       return;
@@ -84,5 +88,15 @@ export class AddbookComponent {
   closeModal() {
     this.isModalVisible = false;
     $(this.modal?.nativeElement).modal('hide');
+  }
+
+  clearModal() {
+    this.book = {
+      id: 0,
+      author: "",
+      title: "",
+      released: 2024,
+      description: ""
+    };
   }
 }

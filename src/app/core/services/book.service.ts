@@ -9,23 +9,17 @@ import { environment } from '../../../environments/environment';
 })
 export class BookService {
   private apiUrl = `${environment.API_URL}/api/book/`;
-  private books = signal<Book[]>([]);
 
   constructor(private http: HttpClient) { }
 
-  getBooks() {
-    return this.books();
-  }
-
-  async populateBooks(): Promise<boolean> {
+  async populateBooks(): Promise<Book[] | null> {
     const response = await fetchWithAuth(`${this.apiUrl}`);
     
     if (!response.ok) {
-      return false;
+      return null;
     }
     
-    this.books.set(await response.json());
-    return false;
+    return response.json();
   }
 
   async deleteBook(book: Book): Promise<boolean> {
@@ -48,17 +42,13 @@ export class BookService {
     return response.json();
   }
 
-  async editBook(book: Book): Promise<Book | null> {
+  async editBook(book: Book): Promise<boolean> {
     const response: any = await fetchWithAuth(`${this.apiUrl}${book.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book),
     });
 
-    if (!response.ok) {
-      return null;
-    }
-
-    return response.json();
+    return response.ok;
   }
 }

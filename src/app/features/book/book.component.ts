@@ -52,7 +52,11 @@ export class BookComponent {
   }
 
   async repopulateBooks() {
-    await this.bookService.populateBooks();
-    this.books.set(this.bookService.getBooks());
+    const books = await this.bookService.populateBooks();
+    if (books != null) {
+      this.books.set(books);
+    } else {
+      this.errorService.setError('Error fetching books!');
+    }
   }
 }
