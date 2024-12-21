@@ -29,7 +29,6 @@ export class BookComponent {
   }
 
   addBook(book: Book) {
-    console.log(book);
     this.books.set([...this.books(),book]);
   }
 

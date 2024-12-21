@@ -31,32 +31,26 @@ export class BookService {
   async deleteBook(book: Book): Promise<boolean> {
     const response = await fetchWithAuth(`${this.apiUrl}${book.id}`, { method: 'DELETE' });
 
-    if (response.ok) {
-      return true;
-    }
-
-    return false;
+    return response.ok;
   }
 
-  async addBook(book: Book): Promise<boolean> {
-    const response: any = await fetchWithAuth(this.apiUrl, {
+  async addBook(book: Book): Promise<Book> {
+    const response = await fetchWithAuth(this.apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book),
     });
 
-    return response.ok;
+    return response.json();
   }
 
-  async editBook(book: Book): Promise<boolean> {
+  async editBook(book: Book): Promise<Book> {
     const response: any = await fetchWithAuth(`${this.apiUrl}${book.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book),
     });
 
-    console.log(book);
-    
-    return response.ok;
+    return response.json();
   }
 }

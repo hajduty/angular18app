@@ -41,12 +41,14 @@ export class AddbookComponent {
     if (this.bookForm.form.valid) {
       const bookCopy = { ...this.book };
       if (this.mode === 'add') {
-        if (await this.bookService.addBook(bookCopy)) {
-          this.bookComponent.addBook(bookCopy);
+        const book = await this.bookService.addBook(bookCopy);
+        if (book != null) {
+          this.bookComponent.addBook(book);
         }
       } else {
-        if (await this.bookService.editBook(bookCopy)) {
-          this.bookComponent.editBook(bookCopy);
+        const book = await this.bookService.editBook(bookCopy);
+        if (book != null) {
+          this.bookComponent.addBook(book);
         }
       }
 

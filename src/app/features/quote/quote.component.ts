@@ -43,6 +43,7 @@ export class QuoteComponent {
   }
 
   async removeQuote(quote: Quote) {
+    console.log("trying to remove  + " + quote);
     if (await this.quoteService.deleteQuote(quote)) {
       await this.repopulateQuotes();
     } else {
