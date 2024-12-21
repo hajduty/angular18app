@@ -12,8 +12,11 @@ export class QuoteService {
 
   constructor(private http: HttpClient) { }
 
-  async populateQuotes(): Promise<Quote[]> {
+  async populateQuotes(): Promise<Quote[] | null> {
     const response = await fetchWithAuth(`${this.apiUrl}`);
+    if (!response.ok) {
+      return null;
+    }
 
     return response.json();
   }
@@ -23,12 +26,16 @@ export class QuoteService {
     return response.ok;
   }
 
-  async addQuote(quote: string): Promise<Quote> {
+  async addQuote(quote: string): Promise<Quote | null> {
     const response: any = await fetchWithAuth(this.apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(quote),
     });
+
+    if (!response.ok) {
+      return null;
+    }
 
     return await response.json();
   }

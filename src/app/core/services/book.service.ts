@@ -34,22 +34,30 @@ export class BookService {
     return response.ok;
   }
 
-  async addBook(book: Book): Promise<Book> {
+  async addBook(book: Book): Promise<Book | null> {
     const response = await fetchWithAuth(this.apiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book),
     });
 
+    if (!response.ok) {
+      return null;
+    }
+
     return response.json();
   }
 
-  async editBook(book: Book): Promise<Book> {
+  async editBook(book: Book): Promise<Book | null> {
     const response: any = await fetchWithAuth(`${this.apiUrl}${book.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(book),
     });
+
+    if (!response.ok) {
+      return null;
+    }
 
     return response.json();
   }
