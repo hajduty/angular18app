@@ -23,6 +23,7 @@ export class LoginComponent {
 
   toggleForm() {
     this.isRegistering = !this.isRegistering;
+    this.errorMessage = "";
   }
 
   constructor(private authService: AuthService, private router: Router) { }
