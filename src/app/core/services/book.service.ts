@@ -24,7 +24,6 @@ export class BookService {
 
   async deleteBook(book: Book): Promise<number> {
     const response = await fetchWithAuth(`${this.apiUrl}${book.id}`, { method: 'DELETE' });
-    console.log(response.status);
     return response.status;
   }
 

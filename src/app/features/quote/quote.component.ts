@@ -29,8 +29,6 @@ export class QuoteComponent {
     if (quotes != null) {
       this.quotes.set(quotes);
       this.changeDetectorRef.detectChanges();
-    } else {
-      this.errorService.setError('Error fetching quotes');
     }
   }
 
@@ -40,7 +38,7 @@ export class QuoteComponent {
     if (quoteResponse != null) {
       this.quotes.set([...this.quotes(), quoteResponse]);
     } else {
-      this.errorService.setError('Error adding quotes');
+      this.errorService.setError('You need to be logged in to do this.');
     }
   }
 
