@@ -15,7 +15,7 @@ import { ErrorService } from '../../core/services/error.service';
 export class BookComponent {
   books = signal<Book[]>([]);
   private errorService = inject(ErrorService);
-
+  deleting = signal<boolean>(false);
   constructor(private bookService: BookService) { }
 
   @ViewChild(AddbookComponent) modal?: AddbookComponent;
@@ -44,11 +44,16 @@ export class BookComponent {
   }
 
   async removeBook(book: Book) {
-    if (await this.bookService.deleteBook(book)) {
-      this.repopulateBooks();
-      return;
+    this.deleting.set(true);
+    const status = await this.bookService.deleteBook(book);
+    if (status == 204) {
+      await this.repopulateBooks();
+    } else if (status == 404) {
+      this.errorService.setError('Error removing book with ID ' + book.id);
+    } else {
+      this.errorService.setError('You need to be logged in to do this.')
     }
-    this.errorService.setError('You need to be logged in do to this!');
+    this.deleting.set(false);
   }
 
   async repopulateBooks() {

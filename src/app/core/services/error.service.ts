@@ -12,11 +12,9 @@ export class ErrorService {
   setError(error: string, timeout: number = 5000) {
     this.errorMessage.set(error);
     this.isErrorVisible.set(true);
-    console.log("error visible");
 
     setTimeout(() => {
       this.isErrorVisible.set(false);
-      console.log("error hidden");
       setTimeout(() => this.clearError(), 1000);
     }, timeout);
   }

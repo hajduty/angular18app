@@ -22,10 +22,10 @@ export class BookService {
     return response.json();
   }
 
-  async deleteBook(book: Book): Promise<boolean> {
+  async deleteBook(book: Book): Promise<number> {
     const response = await fetchWithAuth(`${this.apiUrl}${book.id}`, { method: 'DELETE' });
-
-    return response.ok;
+    console.log(response.status);
+    return response.status;
   }
 
   async addBook(book: Book): Promise<Book | null> {

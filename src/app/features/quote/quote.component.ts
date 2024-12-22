@@ -15,6 +15,7 @@ import { ErrorService } from '../../core/services/error.service';
 })
 export class QuoteComponent {
   quotes = signal<Quote[]>([])
+  deleting = signal<boolean>(false);
   constructor(private quoteService: QuoteService, private errorService: ErrorService, private changeDetectorRef: ChangeDetectorRef) { }
 
   newQuote: string = "";
@@ -44,10 +45,12 @@ export class QuoteComponent {
   }
 
   async removeQuote(quote: Quote) {
+    this.deleting.set(true);
     if (await this.quoteService.deleteQuote(quote)) {
       await this.repopulateQuotes();
     } else {
       this.errorService.setError('Error removing quote');
     }
+    this.deleting.set(false);
   }
 }
