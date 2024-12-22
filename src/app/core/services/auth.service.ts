@@ -4,12 +4,13 @@ import { User, UserAuth } from '../models/user.model';
 import { jwtDecode } from 'jwt-decode';
 import { Router, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private errorService: ErrorService) { }
 
   user = signal<User | undefined>(undefined);
   private apiUrl = `${environment.API_URL}/api/auth/`;
@@ -50,6 +51,8 @@ export class AuthService {
     const user: User = JSON.parse(userJson);
     if (this.isTokenExpired(user.token)) {
       localStorage.removeItem('user');
+      this.errorService.setError("Login token expired, please login again.");
+      this.router.navigateByUrl("/login");
       return null;
     }
 
